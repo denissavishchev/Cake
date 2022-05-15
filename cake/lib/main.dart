@@ -25,12 +25,53 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   // const App({Key? key}) : super(key: key);
   String result = '???';
-  int numb = 1;
+
 
   void calculateResult() {
     setState(() {
-      result = 'Result x ';
-      numb += 1;
+      // result = 'Result x ';
+
+      final LT = double.parse(TextInputsLeftTopState.leftTopText.text);
+      final RT = double.parse(TextInputsRightTopState.rightTopText.text);
+      final LD = double.parse(TextInputsLeftBottomState.leftBottomText.text);
+      final RD = double.parse(TextInputsRightBottomState.rightBottomText.text);
+      final indexT = ToggleButtonsTopState.isSelected;
+      final indexB = ToggleButtonsBottomState.isSelected;
+
+      List<int> listT = [];
+      indexT.forEach((element) => element == true ? listT.add(1) : listT.add(0));
+      var T = listT.join('');
+      int xT = int.parse(T);
+
+      List<int> listB = [];
+      indexB.forEach((element) => element == true ? listB.add(1) : listB.add(0));
+      var B = listB.join('');
+      int xB = int.parse(B);
+
+      if (xT == 100 && xB == 100) {
+        result = ((LD * LD) / (LT * LT)).toStringAsFixed(4);
+      }else if (xT == 100 && xB == 10){
+        result = ((LD * LD) / ((LT / 2) * (LT / 2) * 3.1415)).toStringAsFixed(4);
+      }else if (xT == 100 && xB == 1){
+        result = ((LD * RD) / ((LT / 2) * (LT / 2) * 3.1415)).toStringAsFixed(4);
+      }
+
+      else if (xT == 10 && xB == 100){
+        result = ((LD / 2) * ((LD / 2) * 3.14) / (LT * LT)).toStringAsFixed(4);
+      }else if (xT == 10 && xB == 10){
+        result = ((LD * LD) / (LT * LT)).toStringAsFixed(4);
+      }else if (xT == 10 && xB == 1){
+        result = ((LD * RD) / (LT * LT)).toStringAsFixed(4);
+      }
+
+      else if (xT == 1 && xB == 100){
+        result = (((LD / 2) * (LD / 2) * 3.1415) / (LT * RT)).toStringAsFixed(4);
+      }else if (xT == 1 && xB == 10){
+        result = ((LD * LD) / (LT * RT)).toStringAsFixed(4);
+      }else if (xT == 1 && xB == 1) {
+        result = ((LD * RD) / (LT * RT)).toStringAsFixed(4);
+      }
+      print(result);
     });
   }
 
@@ -50,7 +91,11 @@ class _AppState extends State<App> {
 
             backgroundColor: Colors.transparent,
               appBar: AppBar(
-                title: Center(child: Text('CakesCalculator')),
+                title: Container(
+                    height: 60,
+                    alignment: Alignment.bottomCenter,
+                    child: Text('CakesCalculator',
+                    style: TextStyle(fontFamily: 'Italianno', fontSize: 60,))),
                 backgroundColor: Color.fromRGBO(17,52,82,1),
                 shadowColor: Colors.white70,
               ),
@@ -71,7 +116,7 @@ class _AppState extends State<App> {
                     ),
                     SizedBox(height: 20),
                     Container(
-                      child: ToggleButtonsTop(),
+                      child: ToggleButtonsBottom(),
                     ),
                     SizedBox(height: 20),
                     Row(
@@ -90,7 +135,7 @@ class _AppState extends State<App> {
                         Container(
                           width: 200,
                           height: 50,
-                          child: Text('$result' + '$numb', textAlign: TextAlign.left, style: TextStyle(fontSize: 30, color: Colors.white),)),
+                          child: Text('$result', textAlign: TextAlign.left, style: TextStyle(fontSize: 30, color: Colors.white),)),
                         SizedBox(width: 10,),
                         Container(
                           width: 100,
