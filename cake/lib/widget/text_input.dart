@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cake/widget/toggle_buttons.dart';
 
 class TextInputsLeftTop extends StatefulWidget {
   @override
@@ -11,30 +10,27 @@ class TextInputsLeftTopState extends State<TextInputsLeftTop> {
 
   @override
   Widget build(BuildContext context) {
-    const hintText = 'Diameter';
+    // const hintText = 'Diameter';
     // bool tcVis = true;
 
     return Container(
       child: Flexible(
-        child: Visibility(
-          visible: true,
-          child: TextFormField(
-            controller: leftTopText,
-            cursorColor: Colors.white,
-            keyboardType: TextInputType.number,
-            style: TextStyle(color: Colors.white, fontSize: 28),
-            decoration: const InputDecoration(
-              hintStyle: TextStyle(color: Colors.white),
-              // fillColor: Colors.transparent, filled: true,
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.all(1),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              hintText: hintText,
+        child: TextFormField(
+          controller: leftTopText,
+          cursorColor: Colors.white,
+          keyboardType: TextInputType.number,
+          style: TextStyle(color: Colors.white, fontSize: 28),
+          decoration: const InputDecoration(
+            hintStyle: TextStyle(color: Colors.white),
+            // fillColor: Colors.transparent, filled: true,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
             ),
+            contentPadding: const EdgeInsets.all(1),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            // hintText: hintText,
           ),
         ),
       ),
@@ -50,31 +46,28 @@ class TextInputsRightTop extends StatefulWidget {
 class TextInputsRightTopState extends State<TextInputsRightTop> {
   static var rightTopText = TextEditingController();
   // static bool tcVis = false;
+  static var vis = false;
 
   @override
   Widget build(BuildContext context) {
-    const hintText = 'HeightT';
 
     return Container(
       child: Flexible(
-        child: Visibility(
-          visible: true,
-          child: TextFormField(
-            controller: rightTopText,
-            cursorColor: Colors.white,
-            keyboardType: TextInputType.number,
-            style: TextStyle(color: Colors.white, fontSize: 28),
-            decoration: const InputDecoration(
-              hintStyle: TextStyle(color: Colors.white),
-              // fillColor: Colors.deepOrange, filled: true,
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.all(1),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              hintText: hintText,
+        child: TextFormField(
+          enabled: vis,
+          controller: rightTopText,
+          cursorColor: Colors.white,
+          keyboardType: TextInputType.number,
+          style: TextStyle(color: Colors.white, fontSize: 28),
+          decoration: const InputDecoration(
+            hintStyle: TextStyle(color: Colors.white),
+            // fillColor: Colors.deepOrange, filled: true,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            contentPadding: const EdgeInsets.all(1),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
             ),
           ),
         ),
@@ -93,7 +86,6 @@ class TextInputsLeftBottomState extends State<TextInputsLeftBottom> {
 
   @override
   Widget build(BuildContext context) {
-    const hintText = 'DiametrB';
 
     return Container(
       child: Flexible(
@@ -112,7 +104,6 @@ class TextInputsLeftBottomState extends State<TextInputsLeftBottom> {
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
             ),
-            hintText: hintText,
           ),
         ),
       ),
@@ -128,31 +119,28 @@ class TextInputsRightBottom extends StatefulWidget {
 class TextInputsRightBottomState extends State<TextInputsRightBottom> {
   static var rightBottomText = TextEditingController();
   // static bool tcVis = false;
+  static var vis = false;
 
   @override
   Widget build(BuildContext context) {
-    const hintText = 'HeightB';
 
     return Container(
       child: Flexible(
-        child: Visibility(
-          visible: true,
-          child: TextFormField(
-            controller: rightBottomText,
-            cursorColor: Colors.white,
-            keyboardType: TextInputType.number,
-            style: TextStyle(color: Colors.white, fontSize: 28),
-            decoration: const InputDecoration(
-              hintStyle: TextStyle(color: Colors.white),
-              // fillColor: Colors.deepOrange, filled: true,
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.all(1),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              hintText: hintText,
+        child: TextFormField(
+          enabled: vis,
+          controller: rightBottomText,
+          cursorColor: Colors.white,
+          keyboardType: TextInputType.number,
+          style: TextStyle(color: Colors.white, fontSize: 28),
+          decoration: const InputDecoration(
+            hintStyle: TextStyle(color: Colors.white),
+            // fillColor: Colors.deepOrange, filled: true,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            contentPadding: const EdgeInsets.all(1),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
             ),
           ),
         ),
