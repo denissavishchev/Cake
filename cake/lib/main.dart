@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cake/widget/toggle_buttons.dart';
 import 'package:cake/widget/text_input.dart';
+import 'package:cake/widget/buttons.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,9 +13,11 @@ class MyApp extends StatelessWidget {
       title: 'CakeCalculator',
       home: App(),
     );
-
   }
 }
+
+enum Top { circle, square, rect }
+enum Bottom { circle, square, rect }
 
 class App extends StatefulWidget {
   @override
@@ -25,54 +27,49 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   // const App({Key? key}) : super(key: key);
   String result = '???';
-
+  Top? top;
+  Bottom? bottom;
 
   void calculateResult() {
-    setState(() {
-      // result = 'Result x ';
+    try {
+      setState(() {
+        var LT = double.parse(TextInputsLeftTopState.leftTopText.text);
+        var RT = double.parse(TextInputsRightTopState.rightTopText.text);
+        var LD = double.parse(TextInputsLeftBottomState.leftBottomText.text);
+        var RD = double.parse(TextInputsRightBottomState.rightBottomText.text);
 
-      final LT = double.parse(TextInputsLeftTopState.leftTopText.text);
-      final RT = double.parse(TextInputsRightTopState.rightTopText.text);
-      final LD = double.parse(TextInputsLeftBottomState.leftBottomText.text);
-      final RD = double.parse(TextInputsRightBottomState.rightBottomText.text);
-      final indexT = ToggleButtonsTopState.isSelected;
-      final indexB = ToggleButtonsBottomState.isSelected;
+        if (top == Top.circle && bottom == Bottom.circle) {
+          result = ((LD * LD) / (LT * LT)).toStringAsFixed(4);
+        } else if (top == Top.circle && bottom == Bottom.square) {
+          result =
+              ((LD * LD) / ((LT / 2) * (LT / 2) * 3.1415)).toStringAsFixed(4);
+        } else if (top == Top.circle && bottom == Bottom.rect) {
+          result =
+              ((LD * RD) / ((LT / 2) * (LT / 2) * 3.1415)).toStringAsFixed(4);
 
-      List<int> listT = [];
-      indexT.forEach((element) => element == true ? listT.add(1) : listT.add(0));
-      var T = listT.join('');
-      int xT = int.parse(T);
+        } else if (top == Top.square && bottom == Bottom.circle) {
+          result =
+              ((LD / 2) * ((LD / 2) * 3.14) / (LT * LT)).toStringAsFixed(4);
+        } else if (top == Top.square && bottom == Bottom.square) {
+          result = ((LD * LD) / (LT * LT)).toStringAsFixed(4);
+        } else if (top == Top.square && bottom == Bottom.rect) {
+          result = ((LD * RD) / (LT * LT)).toStringAsFixed(4);
 
-      List<int> listB = [];
-      indexB.forEach((element) => element == true ? listB.add(1) : listB.add(0));
-      var B = listB.join('');
-      int xB = int.parse(B);
+        } else if (top == Top.rect && bottom == Bottom.circle) {
+          result =
+              (((LD / 2) * (LD / 2) * 3.1415) / (LT * RT)).toStringAsFixed(4);
+        } else if (top == Top.rect && bottom == Bottom.square) {
+          result = ((LD * LD) / (LT * RT)).toStringAsFixed(4);
+        } else if (top == Top.rect && bottom == Bottom.rect) {
+          result = ((LD * RD) / (LT * RT)).toStringAsFixed(4);
+        }
 
-      if (xT == 100 && xB == 100) {
-        result = ((LD * LD) / (LT * LT)).toStringAsFixed(4);
-      }else if (xT == 100 && xB == 10){
-        result = ((LD * LD) / ((LT / 2) * (LT / 2) * 3.1415)).toStringAsFixed(4);
-      }else if (xT == 100 && xB == 1){
-        result = ((LD * RD) / ((LT / 2) * (LT / 2) * 3.1415)).toStringAsFixed(4);
-      }
-
-      else if (xT == 10 && xB == 100){
-        result = ((LD / 2) * ((LD / 2) * 3.14) / (LT * LT)).toStringAsFixed(4);
-      }else if (xT == 10 && xB == 10){
-        result = ((LD * LD) / (LT * LT)).toStringAsFixed(4);
-      }else if (xT == 10 && xB == 1){
-        result = ((LD * RD) / (LT * LT)).toStringAsFixed(4);
-      }
-
-      else if (xT == 1 && xB == 100){
-        result = (((LD / 2) * (LD / 2) * 3.1415) / (LT * RT)).toStringAsFixed(4);
-      }else if (xT == 1 && xB == 10){
-        result = ((LD * LD) / (LT * RT)).toStringAsFixed(4);
-      }else if (xT == 1 && xB == 1) {
-        result = ((LD * RD) / (LT * RT)).toStringAsFixed(4);
-      }
-      print(result);
-    });
+      });
+    } catch (e) {
+      setState(() {
+        result = 'Empty';
+      });
+    }
   }
 
   @override
@@ -88,25 +85,75 @@ class _AppState extends State<App> {
             ),
           ),
           child: Scaffold(
-
-            backgroundColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
               appBar: AppBar(
                 title: Container(
                     height: 60,
                     alignment: Alignment.bottomCenter,
-                    child: Text('CakesCalculator',
-                    style: TextStyle(fontFamily: 'Italianno', fontSize: 60,))),
-                backgroundColor: Color.fromRGBO(17,52,82,1),
+                    child: Text('Cakes Calculator',
+                        style: TextStyle(
+                          fontFamily: 'Italianno',
+                          fontSize: 60,
+                        ))),
+                backgroundColor: Color.fromRGBO(17, 52, 82, 1),
                 shadowColor: Colors.white70,
               ),
-              body:  Container(
+              body: Container(
                 child: Column(
                   children: <Widget>[
-                     SizedBox(height: 20),
-                     ToggleButtonsTop(),
-                     SizedBox(height: 20),
+                    SizedBox(height: 40),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        TopButtons(
+                          onTap: (){
+                            setState(() {
+                              top = Top.circle;
+                              TextInputsRightTopState.vis = false;
+                            });
+                          },
+                          child: Icon(Icons.radio_button_off,
+                            color: top == Top.circle ? Colors.white70 : Colors.black,
+                            size: 80,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        TopButtons(
+                          onTap: (){
+                            setState(() {
+                              top = Top.square;
+                              TextInputsRightTopState.vis = false;
+                            });
+                          },
+                          child: Icon(
+                            Icons.check_box_outline_blank,
+                            color: top == Top.square ? Colors.white70 : Colors.black,
+                            size: 80,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        TopButtons(
+                          onTap: (){
+                            setState(() {
+                              top = Top.rect;
+                              TextInputsRightTopState.vis = true;
+                            });
+                          },
+                          child: Icon(
+                            Icons.rectangle_outlined,
+                            color: top == Top.rect ? Colors.white70 : Colors.black,
+                            size: 80,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: <Widget>[
                         SizedBox(width: 45),
                         TextInputsLeftTop(),
                         SizedBox(width: 60),
@@ -115,12 +162,58 @@ class _AppState extends State<App> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    Container(
-                      child: ToggleButtonsBottom(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        BottomButtons(
+                          onTap: (){
+                            setState(() {
+                              bottom = Bottom.circle;
+                              TextInputsRightBottomState.vis = false;
+                            });
+                          },
+                          child: Icon(Icons.radio_button_off,
+                            color: bottom == Bottom.circle ? Colors.white70 : Colors.black,
+                            size: 80,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        BottomButtons(
+                          onTap: (){
+                            setState(() {
+                              bottom = Bottom.square;
+                              TextInputsRightBottomState.vis = false;
+                            });
+                          },
+                          child: Icon(
+                            Icons.check_box_outline_blank,
+                            color: bottom == Bottom.square ? Colors.white70 : Colors.black,
+                            size: 80,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        BottomButtons(
+                          onTap: (){
+                            setState(() {
+                              bottom = Bottom.rect;
+                              TextInputsRightBottomState.vis = true;
+                            });
+                          },
+                          child: Icon(
+                            Icons.rectangle_outlined,
+                            color: bottom == Bottom.rect ? Colors.white70 : Colors.black,
+                            size: 80,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 20),
                     Row(
-                      children: [
+                      children: <Widget>[
                         SizedBox(width: 45),
                         TextInputsLeftBottom(),
                         SizedBox(width: 60),
@@ -130,13 +223,27 @@ class _AppState extends State<App> {
                     ),
                     SizedBox(height: 20),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 45,
+                        ),
                         Container(
-                          width: 200,
-                          height: 50,
-                          child: Text('$result', textAlign: TextAlign.left, style: TextStyle(fontSize: 30, color: Colors.white),)),
-                        SizedBox(width: 10,),
+                            // color: Colors.red,
+                            alignment: Alignment.center,
+                            width: 130,
+                            height: 40,
+                            child: Text(
+                              '$result',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.white,
+                              ),
+                            )),
+                        SizedBox(
+                          width: 70,
+                        ),
                         Container(
                           width: 100,
                           height: 50,
@@ -146,8 +253,7 @@ class _AppState extends State<App> {
                                   color: Colors.white,
                                   spreadRadius: 3,
                                   blurRadius: 8,
-                                  offset: Offset(1.0,1.0)
-                              ),
+                                  offset: Offset(1.0, 1.0)),
                             ],
                           ),
                           child: RaisedButton(
@@ -155,14 +261,20 @@ class _AppState extends State<App> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 side: BorderSide(color: Colors.white)),
                             onPressed: calculateResult,
-                            color: Color.fromRGBO(17,52,82,1),
-                            child: Text('Result', style: TextStyle(fontSize: 24),), textColor: Colors.white,
+                            color: Color.fromRGBO(17, 52, 82, 1),
+                            child: Text(
+                              'Result',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                            textColor: Colors.white,
                           ),
+                        ),
+                        SizedBox(
+                          width: 45,
                         ),
                       ],
                     ),
                     SizedBox(height: 20),
-
                   ],
                 ),
               )),
