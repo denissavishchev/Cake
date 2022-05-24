@@ -30,14 +30,20 @@ class _AppState extends State<App> {
   Top? top;
   Bottom? bottom;
 
+
   void calculateResult() {
     try {
-      setState(() {
-        var LT = double.parse(TextInputsLeftTopState.leftTopText.text);
-        var RT = double.parse(TextInputsRightTopState.rightTopText.text);
-        var LD = double.parse(TextInputsLeftBottomState.leftBottomText.text);
-        var RD = double.parse(TextInputsRightBottomState.rightBottomText.text);
+      var LT = double.parse(TextInputsLeftTopState.leftTopText.text!=null
+          && TextInputsLeftTopState.leftTopText.text.isNotEmpty?TextInputsLeftTopState.leftTopText.text:'0');
+      var RT = double.parse(TextInputsRightTopState.rightTopText.text!=null
+          && TextInputsRightTopState.rightTopText.text.isNotEmpty?TextInputsRightTopState.rightTopText.text:'0');
+      var LD = double.parse(TextInputsLeftBottomState.leftBottomText.text!=null
+          && TextInputsLeftBottomState.leftBottomText.text.isNotEmpty?TextInputsLeftBottomState.leftBottomText.text:'0');
+      var RD = double.parse(TextInputsRightBottomState.rightBottomText.text!=null
+          && TextInputsRightBottomState.rightBottomText.text.isNotEmpty?TextInputsRightBottomState.rightBottomText.text:'0');
 
+
+      setState(() {
         if (top == Top.circle && bottom == Bottom.circle) {
           result = ((LD * LD) / (LT * LT)).toStringAsFixed(4);
         } else if (top == Top.circle && bottom == Bottom.square) {
@@ -63,9 +69,15 @@ class _AppState extends State<App> {
         } else if (top == Top.rect && bottom == Bottom.rect) {
           result = ((LD * RD) / (LT * RT)).toStringAsFixed(4);
         }
-
       });
+
     } catch (e) {
+      setState(() {
+        result = 'Empty';
+      });
+    }
+    print(result);
+    if (result == 'NaN' || result == '0.0000' || result == 'Infinity') {
       setState(() {
         result = 'Empty';
       });
@@ -110,6 +122,7 @@ class _AppState extends State<App> {
                             setState(() {
                               top = Top.circle;
                               TextInputsRightTopState.vis = false;
+                              TextInputsRightTopState.rightTopText.clear();
                             });
                           },
                           child: Icon(Icons.radio_button_off,
@@ -125,6 +138,7 @@ class _AppState extends State<App> {
                             setState(() {
                               top = Top.square;
                               TextInputsRightTopState.vis = false;
+                              TextInputsRightTopState.rightTopText.clear();
                             });
                           },
                           child: Icon(
@@ -170,6 +184,7 @@ class _AppState extends State<App> {
                             setState(() {
                               bottom = Bottom.circle;
                               TextInputsRightBottomState.vis = false;
+                              TextInputsRightBottomState.rightBottomText.clear();
                             });
                           },
                           child: Icon(Icons.radio_button_off,
@@ -185,6 +200,7 @@ class _AppState extends State<App> {
                             setState(() {
                               bottom = Bottom.square;
                               TextInputsRightBottomState.vis = false;
+                              TextInputsRightBottomState.rightBottomText.clear();
                             });
                           },
                           child: Icon(
@@ -233,6 +249,15 @@ class _AppState extends State<App> {
                             alignment: Alignment.center,
                             width: 130,
                             height: 40,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromRGBO(17,52,82,.7),
+                                    spreadRadius: 3,
+                                    blurRadius: 8,
+                                    offset: Offset(1.0, 1.0)),
+                              ],
+                            ),
                             child: Text(
                               '$result',
                               textAlign: TextAlign.center,
@@ -259,7 +284,8 @@ class _AppState extends State<App> {
                           child: RaisedButton(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
-                                side: BorderSide(color: Colors.white)),
+                                // side: BorderSide(color: Colors.white)
+                            ),
                             onPressed: calculateResult,
                             color: Color.fromRGBO(17, 52, 82, 1),
                             child: Text(
